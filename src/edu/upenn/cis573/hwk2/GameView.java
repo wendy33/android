@@ -2,6 +2,7 @@ package edu.upenn.cis573.hwk2;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,17 +17,13 @@ import android.view.View;
 import android.widget.TextView;
 
 public class GameView extends View {
-//    private Bitmap image;
-//    private Point imagePoint = new Point(-150,100);
 	private Image image;
     private Stroke stroke = new Stroke();
     private boolean killed = false;
     private boolean newUnicorn = true;
     private int score = 0;
     private int yChange = 0;
-    public long startTime;
-    public long endTime;
-
+    
     public GameView(Context context) {
 	    super(context);
 	    createView();
@@ -112,7 +109,7 @@ public class GameView extends View {
     	if (!killed && image.inBoundary(x,y)) {
     		killed = true;
     		score++;
-    		((TextView)(GameActivity.instance.getScoreboard())).setText(""+score);
+    		((TextView)((GameActivity) getContext()).getScoreboard()).setText(""+score);
     	}
     	
     	// forces a redraw of the View
@@ -132,11 +129,10 @@ public class GameView extends View {
     public int getScore(){
     	return score;
     }
-    
-    public void setEndTime(long time){
-    	endTime = time;
-    }
 
+    public void setEndTime(long t){
+    	((GameActivity) getContext()).endTime = t;
+    }
 
 }
 

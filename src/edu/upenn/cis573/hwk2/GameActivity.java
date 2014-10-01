@@ -9,26 +9,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class GameActivity extends Activity {
+public class GameActivity extends PActivity {
 	
 	// a global, static instance so that the GameView object can refer to this object
-	public static GameActivity instance;
+	
+	//public static GameActivity instance;
+	
 	// keeps track of the best time so far
 	private static float bestTime = 10000000;
-
+    public long startTime;
+    public long endTime;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.play_game);
-		
-        instance = this;
-        
+       // instance = this;
         // this method is deprecated but, trust me, it's easier this way
         showDialog(0);
 	}
 	
-	static View getScoreboard() {
-		return instance.findViewById(R.id.scoreboard);
+	
+	public View getScoreboard() {
+		//return instance.findViewById(R.id.scoreboard);
+		return findViewById(R.id.scoreboard);
 	}
 
 	
@@ -53,7 +57,8 @@ public class GameActivity extends Activity {
 	    	               GameView gv = (GameView)findViewById(R.id.gameView);
 	    	               BackgroundDrawingTask t = new BackgroundDrawingTask();
 	    	               t.execute(gv);
-	    	               gv.startTime = System.currentTimeMillis();
+	    	               //gv.startTime = System.currentTimeMillis();
+	    	               startTime = System.currentTimeMillis();
 	    	           }
 	    	         });
     		return builder.create();
@@ -62,7 +67,8 @@ public class GameActivity extends Activity {
 	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
             // figure out which message to display
             GameView gv = (GameView)findViewById(R.id.gameView);
-	    	long time = gv.endTime - gv.startTime;
+            long time = endTime - startTime;
+	    	//long time = gv.endTime - gv.startTime;
 	    	// a little magic to convert to tenths of a second
 	    	float displayTime = (time / 100) / (float)10.0;
 	    	if (bestTime == 10000000) {
